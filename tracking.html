@@ -220,7 +220,12 @@
           document.getElementById('val-book').innerText = cleanDateFormat(data.bookingDate);
           document.getElementById('val-delivery-date').innerText = cleanDateFormat(data.deliveryDate || data.eta);
           
+          if (data.history && data.history.length > 0) {
+          const latest = data.history[data.history.length - 1];
+          document.getElementById('live-status').innerText = latest.act;
+          } else {
           document.getElementById('live-status').innerText = data.status || 'In Transit';
+          }
 
           // Timeline Injection
           const flow = document.getElementById('timeline-flow');
@@ -252,5 +257,6 @@
 </body>
 
 </html>
+
 
 
