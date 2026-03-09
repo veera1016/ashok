@@ -60,34 +60,47 @@
       <section class="card">
         <h2 class="card-title">Shipment Details</h2>
         <div class="form-grid">
+
           <div class="form-group">
             <label>AWB Number</label>
             <input type="text" id="shipId" placeholder="SKY123456">
           </div>
+
+          <div class="form-group">
+            <label>Forwarding Number</label>
+            <input type="text" id="forwardingNumber" placeholder="FRW123456">
+          </div>
+
           <div class="form-group">
             <label>Booking Date</label>
             <input type="date" id="bookingDate">
           </div>
+
           <div class="form-group">
             <label>Consignee (Receiver)</label>
             <input type="text" id="consignee" placeholder="Receiver Name">
           </div>
+
           <div class="form-group">
             <label>Destination</label>
             <input type="text" id="dest" placeholder="City, Country">
           </div>
+
           <div class="form-group">
             <label>Sender (Shipper)</label>
             <input type="text" id="sender" placeholder="Sender Name">
           </div>
+
           <div class="form-group">
             <label>Delivery Date (Est.)</label>
             <input type="date" id="deliveryDate">
           </div>
+
           <div class="form-group full-width" style="grid-column: span 2;">
             <label>Current Status Summary</label>
             <input type="text" id="currentSummary" placeholder="e.g. In Transit to Visakhapatnam">
           </div>
+
         </div>
       </section>
 
@@ -105,6 +118,7 @@
           </thead>
           <tbody id="progressBody"></tbody>
         </table>
+
         <button class="btn-add" onclick="addRow()"><i class="fas fa-plus"></i> Add Progress</button>
         
         <div class="save-section">
@@ -116,113 +130,193 @@
     </main>
   </div>
 
-  <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_D0udAHyTGnAJ6_5PgYSX_SBzdaDu_kwglGSdkAueX9WFP3SRc_7LT_mIMKe1dlw/exec";
+<script>
 
-    function addRow(date='', time='', loc='', act='') {
-        const tbody = document.getElementById('progressBody');
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td><input type="date" class="p-date" value="${date}"></td>
-            <td><input type="time" class="p-time" value="${time}"></td>
-            <td><input type="text" class="p-loc" value="${loc}" placeholder="Location"></td>
-            <td><input type="text" class="p-act" value="${act}" placeholder="Activity"></td>
-            <td><button onclick="this.parentElement.parentElement.remove()" style="color:red; background:none; border:none; cursor:pointer;"><i class="fas fa-trash"></i></button></td>
-        `;
-        tbody.appendChild(row);
-    }
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_D0udAHyTGnAJ6_5PgYSX_SBzdaDu_kwglGSdkAueX9WFP3SRc_7LT_mIMKe1dlw/exec";
 
-    async function saveShipment() {
-        const id = document.getElementById('shipId').value.toUpperCase().trim();
-        if(!id) return alert("AWB Number required!");
+function addRow(date='', time='', loc='', act='') {
 
-        const btn = document.getElementById('saveBtn');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Syncing with Google Sheets...';
-        btn.disabled = true;
+const tbody = document.getElementById('progressBody');
 
-        const progress = [];
-        document.querySelectorAll('#progressBody tr').forEach(row => {
-            const dateVal = row.querySelector('.p-date').value;
-            if(dateVal) {
-                progress.push({
-                    date: dateVal,
-                    time: row.querySelector('.p-time').value,
-                    loc: row.querySelector('.p-loc').value,
-                    act: row.querySelector('.p-act').value
-                });
-            }
-        });
+const row = document.createElement('tr');
 
-        const shipmentData = {
-            id: id,
-            bookingDate: document.getElementById('bookingDate').value,
-            consignee: document.getElementById('consignee').value,
-            dest: document.getElementById('dest').value,
-            sender: document.getElementById('sender').value,
-            deliveryDate: document.getElementById('deliveryDate').value,
-            status: document.getElementById('currentSummary').value,
-            history: progress
-        };
+row.innerHTML = `
+<td><input type="date" class="p-date" value="${date}"></td>
+<td><input type="time" class="p-time" value="${time}"></td>
+<td><input type="text" class="p-loc" value="${loc}" placeholder="Location"></td>
+<td><input type="text" class="p-act" value="${act}" placeholder="Activity"></td>
+<td><button onclick="this.parentElement.parentElement.remove()" style="color:red; background:none; border:none; cursor:pointer;"><i class="fas fa-trash"></i></button></td>
+`;
 
-        try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                cache: 'no-cache',
-                body: JSON.stringify(shipmentData)
-            });
-            
-            alert("Shipment " + id + " has been sent to the Cloud!");
-        } catch (e) {
-            console.error(e);
-            alert("Error connecting to Google Sheets. Check your Internet.");
-        } finally {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-    }
+tbody.appendChild(row);
 
-    async function loadShipment() {
-        const id = document.getElementById('searchId').value.toUpperCase().trim();
-        if(!id) return alert("Enter AWB Number");
+}
 
-        const btn = document.getElementById('loadBtn');
-        btn.innerText = "Searching...";
-        btn.disabled = true;
+async function saveShipment() {
 
-        try {
-            const response = await fetch(`${SCRIPT_URL}?id=${id}`);
-            const data = await response.json();
+const id = document.getElementById('shipId').value.toUpperCase().trim();
 
-            if(data.error) {
-                alert("AWB Not Found in Google Sheets.");
-            } else {
-                document.getElementById('shipId').value = id;
-                document.getElementById('bookingDate').value = data.bookingDate || '';
-                document.getElementById('consignee').value = data.consignee || '';
-                document.getElementById('dest').value = data.dest || '';
-                document.getElementById('sender').value = data.sender || '';
-                document.getElementById('deliveryDate').value = data.deliveryDate || '';
-                document.getElementById('currentSummary').value = data.status || '';
+if(!id) return alert("AWB Number required!");
 
-                const tbody = document.getElementById('progressBody');
-                tbody.innerHTML = '';
-                if(data.history && Array.isArray(data.history)) {
-                    data.history.forEach(h => addRow(h.date, h.time, h.loc, h.act));
-                }
-                if(tbody.innerHTML === '') addRow();
-                alert("Data Retrieved!");
-            }
-        } catch (e) {
-            alert("Could not load data. Ensure the Script is deployed correctly.");
-        } finally {
-            btn.innerText = "Load";
-            btn.disabled = false;
-        }
-    }
+const btn = document.getElementById('saveBtn');
 
-    addRow();
-  </script>
+const originalText = btn.innerHTML;
+
+btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Syncing with Google Sheets...';
+
+btn.disabled = true;
+
+const progress = [];
+
+document.querySelectorAll('#progressBody tr').forEach(row => {
+
+const dateVal = row.querySelector('.p-date').value;
+
+if(dateVal) {
+
+progress.push({
+
+date: dateVal,
+
+time: row.querySelector('.p-time').value,
+
+loc: row.querySelector('.p-loc').value,
+
+act: row.querySelector('.p-act').value
+
+});
+
+}
+
+});
+
+const shipmentData = {
+
+id: id,
+
+forwardingNumber: document.getElementById('forwardingNumber').value,
+
+bookingDate: document.getElementById('bookingDate').value,
+
+consignee: document.getElementById('consignee').value,
+
+dest: document.getElementById('dest').value,
+
+sender: document.getElementById('sender').value,
+
+deliveryDate: document.getElementById('deliveryDate').value,
+
+status: document.getElementById('currentSummary').value,
+
+history: progress
+
+};
+
+try {
+
+await fetch(SCRIPT_URL, {
+
+method: 'POST',
+
+mode: 'no-cors',
+
+cache: 'no-cache',
+
+body: JSON.stringify(shipmentData)
+
+});
+
+alert("Shipment " + id + " has been sent to the Cloud!");
+
+} catch (e) {
+
+console.error(e);
+
+alert("Error connecting to Google Sheets. Check your Internet.");
+
+} finally {
+
+btn.innerHTML = originalText;
+
+btn.disabled = false;
+
+}
+
+}
+
+async function loadShipment() {
+
+const id = document.getElementById('searchId').value.toUpperCase().trim();
+
+if(!id) return alert("Enter AWB Number");
+
+const btn = document.getElementById('loadBtn');
+
+btn.innerText = "Searching...";
+
+btn.disabled = true;
+
+try {
+
+const response = await fetch(`${SCRIPT_URL}?id=${id}`);
+
+const data = await response.json();
+
+if(data.error) {
+
+alert("AWB Not Found in Google Sheets.");
+
+} else {
+
+document.getElementById('shipId').value = id;
+
+document.getElementById('forwardingNumber').value = data.forwardingNumber || '';
+
+document.getElementById('bookingDate').value = data.bookingDate || '';
+
+document.getElementById('consignee').value = data.consignee || '';
+
+document.getElementById('dest').value = data.dest || '';
+
+document.getElementById('sender').value = data.sender || '';
+
+document.getElementById('deliveryDate').value = data.deliveryDate || '';
+
+document.getElementById('currentSummary').value = data.status || '';
+
+const tbody = document.getElementById('progressBody');
+
+tbody.innerHTML = '';
+
+if(data.history && Array.isArray(data.history)) {
+
+data.history.forEach(h => addRow(h.date, h.time, h.loc, h.act));
+
+}
+
+if(tbody.innerHTML === '') addRow();
+
+alert("Data Retrieved!");
+
+}
+
+} catch (e) {
+
+alert("Could not load data. Ensure the Script is deployed correctly.");
+
+} finally {
+
+btn.innerText = "Load";
+
+btn.disabled = false;
+
+}
+
+}
+
+addRow();
+
+</script>
+
 </body>
 </html>
