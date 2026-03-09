@@ -221,10 +221,17 @@
           document.getElementById('val-delivery-date').innerText = cleanDateFormat(data.deliveryDate || data.eta);
           
           if (data.history && data.history.length > 0) {
+
           const latest = data.history[data.history.length - 1];
-          document.getElementById('live-status').innerText = latest.act;
+
+          document.getElementById('live-status').innerText =
+          latest.act + " at " + latest.loc;
+
           } else {
-          document.getElementById('live-status').innerText = data.status || 'In Transit';
+
+          document.getElementById('live-status').innerText =
+          data.status || "In Transit";
+
           }
 
           // Timeline Injection
@@ -257,6 +264,7 @@
 </body>
 
 </html>
+
 
 
 
