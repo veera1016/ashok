@@ -159,7 +159,7 @@
 
           <div class="data-grid">
             <div class="data-item"><small>Sender (Shipper)</small><span id="val-sender">---</span></div>
-            <div class="data-item"><small>Forwarding Number</small><span id="val-sender">---</span></div>
+            <div class="data-item"><small>Forwarding Number</small><span id="val-forward">---</span></div>
             <div class="data-item"><small>Consignee (Receiver)</small><span id="val-receiver">---</span></div>
             <div class="data-item"><small>Destination</small><span id="val-dest">---</span></div>
             <div class="data-item"><small>Booking Date</small><span id="val-book">---</span></div>
@@ -212,6 +212,7 @@
           
           // Data Mapping matching your admin screenshot
           document.getElementById('val-sender').innerText = data.sender || '---';
+          document.getElementById('val-forward').innerText = data.forwardingNumber || '---';
           document.getElementById('val-receiver').innerText = data.consignee || '---';
           document.getElementById('val-dest').innerText = data.dest || '---';
           
@@ -251,3 +252,4 @@
 </body>
 
 </html>
+
