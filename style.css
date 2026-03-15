@@ -612,4 +612,19 @@ max-width:520px;
 max-width:520px;
 }
 
+/* Fix address box width on laptop/desktop */
+@media (min-width: 992px) {
+
+.address-box{
+max-width:420px;
+}
+
+.pickup-info{
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+}
+
+}
+
 
