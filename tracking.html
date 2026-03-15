@@ -205,7 +205,20 @@
           
           // Data Mapping matching your admin screenshot
           document.getElementById('val-sender').innerText = data.sender || '---';
-          document.getElementById('val-forward').innerText = data.forwardingNumber || '---';
+          const forwardLink = document.getElementById('val-forward');
+
+          if (data.forwardingNumber) {
+
+          if (data.forwardingNumber.startsWith("http")) {
+          forwardLink.href = data.forwardingNumber;
+          forwardLink.innerText = data.forwardingNumber;
+          } else {
+          forwardLink.innerText = data.forwardingNumber;
+          }
+
+          } else {
+          forwardLink.innerText = "---";
+          }
           document.getElementById('val-receiver').innerText = data.consignee || '---';
           document.getElementById('val-dest').innerText = data.dest || '---';
           
