@@ -627,4 +627,18 @@ align-items:flex-start;
 
 }
 
+/* Fix Visit Us box width on desktop */
+@media (min-width: 992px){
+
+.pickup-info{
+max-width:480px;
+}
+
+.address-box{
+max-width:480px;
+width:100%;
+}
+
+}
+
 
