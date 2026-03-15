@@ -603,5 +603,13 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{
         font-size: 1.1rem;
     }
 }
+/* Fix pickup section layout on laptop */
+.pickup-info{
+max-width:520px;
+}
+
+.address-box{
+max-width:520px;
+}
 
 
