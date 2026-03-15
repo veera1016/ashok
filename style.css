@@ -573,69 +573,7 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{
     display: none;
 }
 
-/* ==============================
-   MOBILE SAFE LAYOUT FIX
-   ============================== */
 
-@media screen and (max-width:768px){
-
-html,body{
-width:100%;
-overflow-x:hidden;
-}
-
-/* Hero layout fix */
-.hero-inner{
-flex-direction:column;
-align-items:center;
-text-align:center;
-}
-
-.hero-left,
-.hero-right{
-width:100%;
-flex:1 1 auto;
-min-width:0;
-}
-
-/* Hero image fix */
-.image-stack{
-max-width:100%;
-margin:auto;
-}
-
-/* Buttons stack nicely */
-.hero-ctas{
-flex-direction:column;
-gap:12px;
-align-items:center;
-}
-
-/* Trust icons alignment */
-.hero-trust{
-justify-content:center;
-flex-wrap:wrap;
-}
-
-/* Mobile menu width */
-#primary-menu{
-width:260px;
-}
-
-/* Floating buttons position */
-.floating-contacts{
-right:12px;
-bottom:12px;
-}
-
-/* Prevent long links breaking layout */
-.data-item span,
-.data-item a{
-word-break:break-word;
-overflow-wrap:break-word;
-}
-
-}
 
 
 
