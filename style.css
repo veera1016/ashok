@@ -573,34 +573,8 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{
     display: none;
 }
 
-/* Mobile: Show Mobile-Only Link inside the menu */
-@media screen and (max-width: 768px) {
-    .nav-links.active .mobile-only-link {
-        display: block;
-    }
-}
 
-/* 1. Force the login link to stay hidden on all screens by default */
-.mobile-only-login {
-    display: none !important;
-}
 
-/* 2. Target mobile screens only */
-@media screen and (max-width: 768px) {
-    /* Only show when the parent menu has the 'open' class (which your JS adds) */
-    .nav-links.open .mobile-only-login {
-        display: block !important;
-        width: 100%;
-        text-align: center;
-        padding: 15px 0;
-        border-top: 1px solid rgba(0, 0, 0, 0.1); /* Separator line */
-        margin-top: 10px;
-    }
 
-    .mobile-only-login a {
-        color: var(--primary) !important;
-        font-weight: 800;
-        font-size: 1.1rem;
-    }
-}
+
 
